@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout-padrao}">
+	
+<body>
+<section layout:fragment="conteudo">
+
+
+
+<div class="page-header">
+	<div class="container-fluid">
+		<h1>
+			Cadastro de Profissionais
+		</h1>
+	</div>
+</div>
+
+
+<div class="container-fluid">
+	
+
+	<form method="POST" class="form-vertical  js-form-loading" 
+			th:object="${profissional}" th:action="@{/profissionais/novo}">
+		
+		<div class="alert  alert-danger  alert-dismissible" role="alert" th:if="${#fields.hasAnyErrors()}">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<th:block th:each="error : ${#fields.detailedErrors()}">
+				<div>
+					<i class="fa  fa-exclamation-circle"></i>
+					<span th:text="${error.message}"></span>
+				</div>
+			</th:block>
+		</div>
+		
+		<div class="alert  alert-success" th:if="${!#strings.isEmpty(mensagem)}">
+			<span th:text="${mensagem}"></span>
+		</div>
+		
+		<input type="hidden" th:field="*{idProfissional}"/>
+		
+		<div class="col-sm-6">
+		<div class="form-group">
+			<label for="nomeProfissional">Nome Profissional</label>
+			<input id="nomeProfissional" type="text" class="form-control" th:field="*{nomeProfissional}"/>
+		</div>
+		</div>
+		
+		<div class="col-sm-6">
+		<div class="form-group">
+			<label for="profissao">Profissão</label>
+			<input id="profissao" type="text" class="form-control" th:field="*{profissao}"/>
+		</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="valorHora">Valor do Honorário</label>
+				<input id="valorHora" type="text" class="form-control" th:field="*{valorHora}"/>
+			</div>
+		</div>
+	
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="telefone">Telefone</label>
+				<input id="telefone" type="text" class="form-control" th:field="*{telefone}"/>
+			</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="dataServico">Data Servico</label>
+				<input placeholder="dd/MM/yyyy" id="dataServico" type="text" class="form-control" th:field="*{dataServico}"
+					data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="pt-BR"
+					data-date-autoclose="true" data-date-today-highligth="true" data-date-orientation="top" />
+			</div>
+		</div>
+		
+		<div class="col-sm-12">
+			<div class="form-group">
+				<label for="observacao">Observações</label>
+				<textarea id="observacao" type="text" class="form-control" th:field="*{observacao}"/>
+			</div>
+		</div>
+		
+		<div class="col-sm-12">
+		<div class="form-group">
+			<button class="btn  btn-primary" type="submit">Salvar</button>
+		</div>
+		</div>
+	
+	</form>
+</div>	
+
+</section>
+</body>
+</html>

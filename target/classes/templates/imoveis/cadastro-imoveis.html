@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout-padrao}">
+	
+<body>
+<section layout:fragment="conteudo">
+
+
+
+<div class="page-header">
+	<div class="container-fluid">
+		<h1>
+			Cadastro de Imovéis
+		</h1>
+	</div>
+</div>
+
+
+<div class="container-fluid">
+	
+
+	<form method="POST" class="form-vertical  js-form-loading" 
+			th:object="${imovel}" th:action="@{/imoveis/novo}">
+		
+		<div class="alert  alert-danger  alert-dismissible" role="alert" th:if="${#fields.hasAnyErrors()}">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<th:block th:each="error : ${#fields.detailedErrors()}">
+				<div>
+					<i class="fa  fa-exclamation-circle"></i>
+					<span th:text="${error.message}"></span>
+				</div>
+			</th:block>
+		</div>
+		
+		<div class="alert  alert-success" th:if="${!#strings.isEmpty(mensagem)}">
+			<span th:text="${mensagem}"></span>
+		</div>
+		
+		<input type="hidden" th:field="*{idImovel}"/>
+		
+		<div class="col-sm-6">
+		<div class="form-group">
+			<label for="nomeImovel">Nome do Imovél</label>
+			<input id="nomeImovel" type="text" class="form-control" th:field="*{nomeImovel}"/>
+		</div>
+		</div>
+		
+		<div class="col-sm-6">
+		<div class="form-group">
+			<label for="tipo">Cliente</label>
+			<select id="cliente" class="form-control" th:field="*{cliente}">
+				<option value="">Selecione o Cliente</option>
+				<option th:each="cliente : ${clientes}" 
+					th:text="${cliente.nome}" th:value="${cliente.codigo}"   class="text-center"></option>
+			</select>
+		</div>
+		</div>
+		
+		<div class="col-sm-6">
+		<div class="form-group">
+			<label for="tipo">Tipo do Imóvel</label>
+			<select id="tipoImovel" class="form-control" th:field="*{tipoImovel}">
+				<option value="">Selecione o Tipo de Imovél</option>
+				<option th:each="tipoImovel : ${tipoImoveis}" 
+					th:text="${tipoImovel.descricao}" th:value="${tipoImovel.idTipoImovel}"   class="text-center"></option>
+			</select>
+		</div>
+		</div>
+		
+		<div class="col-sm-6">
+		<div class="form-group">
+			<label for="endereco">Endereço</label>
+			<input id="endereco" type="text" class="form-control" th:field="*{endereco}"/>
+		</div>
+		</div>
+		
+		<div class="col-sm-6">
+		<div class="form-group">
+			<label for="bairro">Bairro</label>
+			<input id="bairro" type="text" class="form-control" th:field="*{bairro}"/>
+		</div>
+		</div>
+		
+		<div class="col-sm-6">
+		<div class="form-group">
+			<label for="zonaCidade">Zona da Cidade</label>
+			<input id="zonaCidade" type="text" class="form-control" th:field="*{zonaCidade}"/>
+		</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="cep">Cep</label>
+				<input id="cep" type="text" data-mask="#####-###" class="cep form-control" th:field="*{cep}"/>
+			</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="pontoDeReferencia">Ponto De Referencia</label>
+				<input id="pontoDeReferencia" type="text" class="form-control" th:field="*{pontoDeReferencia}"/>
+			</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="posicaoGeografica">Posição Geográfica</label>
+				<input id="posicaoGeografica" type="text" class="form-control" th:field="*{posicaoGeografica}"/>
+			</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="metragem">Metragem do Imóvel</label>
+				<input id="metragem" type="text" data-mask="####,##" class=" int form-control" th:field="*{metragem}"/>
+			</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="dormitorio">Dormitórios</label>
+				<input id="dormitorio" type="text" 
+				class="dormitorio form-control" data-mask="##" th:field="*{dormitorio}"/>
+			</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="banheiro">Banheiros</label>
+				<input id="banheiro" type="text" class="form-control" data-mask="##" th:field="*{banheiro}"/>
+			</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="suite">Suites</label>
+				<input id="suite" type="text" class="form-control" th:field="*{suite}"/>
+			</div>
+		</div>
+		
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="vagasGaragem">Vagas Garagem</label>
+				<input id="vagasGaragem" type="text" class="form-control" th:field="*{vagasGaragem}"/>
+			</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="valorAluguelSugerido">Valor Aluguel</label>
+				<input id="valorAluguelSugerido" type="text" class="dinheiro form-control" 
+				data-mask="###.###.###.###.###.###,##" th:field="*{valorAluguelSugerido}"/>
+			</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="valorIptu">Valor Iptu</label>
+				<input id="valorIptu" type="text" class="dinheiro2 form-control" 
+				data-mask="###.###.###.###.###.###,##" th:field="*{valorIptu}"/>
+			</div>
+		</div>
+		
+		
+		<!-- <div class="col-sm-6">
+			<div class="form-group">
+				<label for="mediaCaminho">Upload</label>
+				<input id="mediaCaminho" type="file" class="form-control" th:field="*{mediaCaminho}"/>
+			</div>
+		</div> -->
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="memorialDescritivo">Memorial Descritivo</label>
+				<textarea id="memorialDescritivo" type="text" class="form-control" th:field="*{memorialDescritivo}"/>
+			</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="requisitosInquilino">Requisitos do Inquilino</label>
+				<textarea id="requisitosInquilino" type="text" class="form-control" th:field="*{requisitosInquilino}"/>
+			</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="observacao">Observações</label>
+				<textarea id="observacao" type="text" class="form-control" th:field="*{observacao}"/>
+			</div>
+		</div>
+		
+		<div class="col-sm-12">
+		<div class="form-group">
+			<button class="btn  btn-primary" type="submit">Salvar</button>
+		</div>
+		</div>
+		
+	</form>
+</div>	
+
+</section>
+</body>
+</html>

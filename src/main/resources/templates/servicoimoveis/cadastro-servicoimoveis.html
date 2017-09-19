@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout-padrao}">
+	
+<body>
+<section layout:fragment="conteudo">
+
+
+
+<div class="page-header">
+	<div class="container-fluid">
+		<h1>
+			Cadastro de Locações
+		</h1>
+	</div>
+</div>
+
+
+<div class="container-fluid">
+	
+
+	<form method="POST" class="form-vertical  js-form-loading" 
+			th:object="${servicoImovel}" th:action="@{/servicoimoveis/novo}">
+		
+		<div class="alert  alert-danger  alert-dismissible" role="alert" th:if="${#fields.hasAnyErrors()}">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<th:block th:each="error : ${#fields.detailedErrors()}">
+				<div>
+					<i class="fa  fa-exclamation-circle"></i>
+					<span th:text="${error.message}"></span>
+				</div>
+			</th:block>
+		</div>
+		
+		<div class="alert  alert-success" th:if="${!#strings.isEmpty(mensagem)}">
+			<span th:text="${mensagem}"></span>
+		</div>
+		
+		<input type="hidden" th:field="*{idServicoImovel}"/>
+		
+		<!-- <div class="col-sm-6">
+		<div class="form-group">
+			<label for="tipo">Cliente</label>
+			<select id="cliente" class="form-control" th:field="*{cliente}">
+				<option value="">Selecione o Cliente</option>
+				<option th:each="cliente : ${clientes}" 
+					th:text="${cliente.nome}" th:value="${cliente.codigo}"   class="text-center"></option>
+			</select>
+		</div>
+		</div> -->
+		
+		<div class="col-sm-6">
+		<div class="form-group">
+			<label for="imovel">Imóvel</label>
+			<select id="imovel" class="form-control" th:field="*{imovel}">
+				<option value="">Selecione o Imovél</option>
+				<option th:each="imovel : ${imoveis}" 
+					th:text="${imovel.nomeImovel}" th:value="${imovel.idImovel}"   class="text-center"></option>
+			</select>
+		</div>
+		</div>
+		
+		<div class="col-sm-6">
+		<div class="form-group">
+			<label for="imovel">Profissional</label>
+			<select id="imovel" class="form-control" th:field="*{profissional}">
+				<option value="">Selecione o Profissional</option>
+				<option th:each="profissional : ${profissionais}" 
+					th:text="${profissional.nomeProfissional}" th:value="${profissional.idProfissional}"   class="text-center"></option>
+			</select>
+		</div>
+		</div>
+		
+		<div class="col-sm-6">
+		<div class="form-group">
+			<label for="caminhoMedia">Caminho Situacao Imovél</label>
+			<input id="caminhoMedia" type="text" class="form-control" th:field="*{caminhoMedia}"/>
+		</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="valorTotal">Valor Total</label>
+				<input id="valorTotal" type="text" class="form-control" th:field="*{valorTotal}"/>
+			</div>
+		</div>
+				
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="dataServico">Data do Serviço</label>
+				<input placeholder="dd/MM/yyyy" id="dataServico" type="text" class="form-control" th:field="*{dataServico}"
+					data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="pt-BR"
+					data-date-autoclose="true" data-date-today-highligth="true" data-date-orientation="top" />
+			</div>
+		</div>
+		
+		<div class="col-sm-12">
+			<div class="form-group">
+				<label for="observacao">Observações</label>
+				<textarea id="observacao" type="text" class="form-control" th:field="*{observacao}"/>
+			</div>
+		</div>
+		
+		<div class="col-sm-12">
+		<div class="form-group">
+			<button class="btn  btn-primary" type="submit">Salvar</button>
+		</div>
+		</div>
+	
+	</form>
+</div>	
+
+</section>
+</body>
+</html>

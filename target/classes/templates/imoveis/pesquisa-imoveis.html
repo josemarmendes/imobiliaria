@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:data="http://www.thymeleaf.org/extras/data-attribute"
+	layout:decorate="~{layout/layout-padrao}"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/pesquisa-imoveis.css}"/>
+</head>
+
+<body>
+<section layout:fragment="conteudo">
+
+<div class="page-header">
+	<div class="container-fluid">
+		<h1>
+			Pesquisa de Imovéis
+		</h1>
+	</div>
+</div>
+
+<div class="container-fluid">
+
+	<div class="alert  alert-success" th:if="${!#strings.isEmpty(mensagem)}">
+		<span th:text="${mensagem}"></span>
+	</div>
+
+	<form method="GET" class="form-vertical  js-form-loading" th:object="${imovelFilter}">
+		<div class="form-group">
+			<div class="input-group">
+				<input id="nomeImovel" type="text" th:field="*{nomeImovel}" class="form-control" 
+					placeholder="Pesquise pelo nome"/>
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="submit">
+						<span class="glyphicon  glyphicon-search"></span>
+					</button>
+				</span>
+			</div>
+		</div>
+	</form>
+	
+	<div class="table-responsive">
+		<table id="tabela-produtos" class="table  table-striped  table-bordered  table-hover  table-condensed  js-sticky-table">
+			<thead class="aw-table-header-solid">
+				<tr>
+					<th class="av-table-carros-col-codigo">Código</th>
+					<th class="av-table-carros-col-tipo">Nome do Imovél</th>
+					<th class="av-table-carros-col-tipo">Bairro</th>
+					<th class="av-table-carros-col-tipo">Ponto de Referência</th>
+					<th class="av-table-carros-col-tipo">Metragem</th>
+					<th class="av-table-carros-col-tipo">Dormitórios</th>
+					<th class="av-table-carros-col-tipo">Banheiros</th>
+					<th class="av-table-carros-col-tipo">Suites</th>
+					<th class="av-table-carros-col-tipo">Vagas na Garagem</th>
+					<th class="av-table-carros-col-tipo">Valor Aluguel</th>
+					<th class="av-table-carros-col-icons" sec:authorize="hasRole('ROLE_ADMINISTRADOR')"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="imovel : ${imoveis}">
+					<td th:text="${imovel.idImovel}" class="text-center">1</td>
+					<td>
+						<a th:href="@{/imoveis/{idImovel}(idImovel=${imovel.idImovel})}" th:text="${imovel.nomeImovel}" sec:authorize="hasRole('ROLE_ADMINISTRADOR')"></a>
+						<span th:text="${imovel.nomeImovel}" sec:authorize="not hasRole('ROLE_ADMINISTRADOR')"></span>
+					</td>
+					<td th:text="${imovel.endereco}"></td>
+					<td th:text="${imovel.pontoDeReferencia}"></td>
+					<td th:text="${imovel.metragem}"></td>
+					<td th:text="${imovel.dormitorio}"></td>
+					<td th:text="${imovel.banheiro}"></td>
+					<td th:text="${imovel.suite}"></td>
+					<td th:text="${imovel.vagasGaragem}"></td>
+					<td th:text="${imovel.valorAluguelSugerido}"></td>
+					<td class="text-center" sec:authorize="hasRole('ROLE_ADMINISTRADOR')">
+						<i class="fa  fa-trash" style="cursor:pointer"
+							data-toggle="modal" data-target="#confirmaExclusaoModal"
+							data:nome="${imovel.nomeImovel}" 
+							data:url-apagar="@{/imoveis/{idImovel}(idImovel=${imovel.idImovel})}"></i>
+					</td>
+				</tr>
+				<tr th:if="${imoveis.empty}">
+					<td colspan="12">Nenhum imovél cadastrado</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="modal  fade" id="confirmaExclusaoModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+  		<div class="modal-content">
+  			<form th:action="@{/imoveis}" method="POST">
+  				<input type="hidden" name="_method" value="DELETE"/>
+     			<div class="modal-header">
+	       			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	       				<span aria-hidden="true">&times;</span>
+	       			</button>
+	       			<h4 class="modal-title" id="myModalLabel">Excluir Imovél</h4>
+     			</div>
+     			<div class="modal-body">
+       				<span>Tem certeza?</span>
+     			</div>
+     			<div class="modal-footer">
+       				<button type="button" class="btn  btn-default" data-dismiss="modal">Cancelar</button>
+       				<button type="submit" class="btn  btn-primary">Excluir</button>
+     			</div>
+     		</form>
+  		</div>
+	</div>
+</div>
+
+</section>
+
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/javascripts/excluir-carro-modal.js}"></script>
+</th:block>
+
+</body>
+</html>

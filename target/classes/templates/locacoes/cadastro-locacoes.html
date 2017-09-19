@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout-padrao}">
+	
+<body>
+<section layout:fragment="conteudo">
+
+
+
+<div class="page-header">
+	<div class="container-fluid">
+		<h1>
+			Cadastro de Locações
+		</h1>
+	</div>
+</div>
+
+
+<div class="container-fluid">
+	
+
+	<form method="POST" class="form-vertical  js-form-loading" 
+			th:object="${locacao}" th:action="@{/locacoes/novo}">
+		
+		<div class="alert  alert-danger  alert-dismissible" role="alert" th:if="${#fields.hasAnyErrors()}">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<th:block th:each="error : ${#fields.detailedErrors()}">
+				<div>
+					<i class="fa  fa-exclamation-circle"></i>
+					<span th:text="${error.message}"></span>
+				</div>
+			</th:block>
+		</div>
+		
+		<div class="alert  alert-success" th:if="${!#strings.isEmpty(mensagem)}">
+			<span th:text="${mensagem}"></span>
+		</div>
+		
+		<input type="hidden" th:field="*{idLocacao}"/>
+		
+		<!-- <div class="col-sm-6">
+		<div class="form-group">
+			<label for="nomeImovel">Nome do Imovél</label>
+			<input id="nomeImovel" type="text" class="form-control" th:field="*{nomeImovel}"/>
+		</div>
+		</div> -->
+		
+		<div class="col-sm-6">
+		<div class="form-group">
+			<label for="tipo">Cliente</label>
+			<select id="cliente" class="form-control" th:field="*{cliente}">
+				<option value="">Selecione o Cliente</option>
+				<option th:each="cliente : ${clientes}" 
+					th:text="${cliente.nome}" th:value="${cliente.codigo}"   class="text-center"></option>
+			</select>
+		</div>
+		</div>
+		
+		<div class="col-sm-6">
+		<div class="form-group">
+			<label for="imovel">Imóvel</label>
+			<select id="imovel" class="form-control" th:field="*{imovel}">
+				<option value="">Selecione o Imovél</option>
+				<option th:each="imovel : ${imoveis}" 
+					th:text="${imovel.nomeImovel}" th:value="${imovel.idImovel}"   class="text-center"></option>
+			</select>
+		</div>
+		</div>
+		
+		<div class="col-sm-6">
+		<div class="form-group">
+			<label for="profissional">Profissional</label>
+			<select id="profissional" class="form-control" th:field="*{profissional}">
+				<option value="">Selecione o Profissional</option>
+				<option th:each="profissional : ${profissionais}" 
+					th:text="${profissional.nomeProfissional}" th:value="${profissional.idProfissional}"   class="text-center"></option>
+			</select>
+		</div>
+		</div>
+		
+		<div class="col-sm-6">
+		<div class="form-group">
+			<label for="periodicidade">Periodicidade</label>
+			<input id="periodicidade" type="text" class="form-control" th:field="*{periodicidade}"/>
+		</div>
+		</div>
+		
+		<div class="col-sm-6">
+		<div class="form-group">
+			<label for="responsavelPagamento">Responsável do Pagamento</label>
+			<input id="responsavelPagamento" type="text" class="form-control" th:field="*{responsavelPagamento}"/>
+		</div>
+		</div>
+		
+		<div class="col-sm-6">
+		<div class="form-group">
+			<label for="caminhoSituacaoImovel">Caminho Situacao Imovél</label>
+			<input id="caminhoSituacaoImovel" type="text" class="form-control" th:field="*{caminhoSituacaoImovel}"/>
+		</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="valorAluguelLocacao">Valor Aluguel</label>
+				<input id="valorAluguelLocacao" type="text" class="form-control" th:field="*{valorAluguelLocacao}"/>
+			</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="percentualMulta">Multa Percentual </label>
+				<input id="percentualMulta" type="text" class="form-control" th:field="*{percentualMulta}"/>
+			</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="diaDoVencimento">Dia do Vencimento</label>
+				<input id="diaDoVencimento" type="text" class="form-control" th:field="*{diaDoVencimento}"/>
+			</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="dataInicio">Data de Início</label>
+				<input placeholder="dd/MM/yyyy" id="dataInicio" type="text" class="form-control" th:field="*{dataInicio}"
+					data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="pt-BR"
+					data-date-autoclose="true" data-date-today-highligth="true" data-date-orientation="top" />
+			</div>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="dataFim">Data Fim</label>
+				<input placeholder="dd/MM/yyyy" id="dataFim" type="text" class="form-control" th:field="*{dataFim}"
+					data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="pt-BR"
+					data-date-autoclose="true" data-date-today-highligth="true" data-date-orientation="top" />
+			</div>
+		</div>
+		
+		<div class="col-sm-12">
+			<div class="form-group">
+				<label for="observacao">Observações</label>
+				<textarea id="observacao" type="text" class="form-control" th:field="*{observacao}"/>
+			</div>
+		</div>
+		
+		<div class="col-sm-12">
+		<div class="form-group">
+			<button class="btn  btn-primary" type="submit">Salvar</button>
+		</div>
+		</div>
+	
+	</form>
+</div>	
+
+</section>
+</body>
+</html>

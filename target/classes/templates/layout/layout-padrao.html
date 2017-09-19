@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta charset="UTF-8" />	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<title> Imobiliária</title>
+
+	<link rel="stylesheet" type="text/css"
+	th:href="@{/layout/stylesheets/vendors.min.css}" />
+	<link rel="stylesheet" type="text/css"
+	th:href="@{/layout/stylesheets/algaworks.min.css}" /> 
+	<link rel="stylesheet" type="text/css"
+	th:href="@{/layout/stylesheets/application.css}" />
+</head>
+
+<body>
+	<div class="aw-layout-page">
+		<nav
+			class="navbar  navbar-fixed-top  navbar-default  js-sticky-reference"
+				id="main-navbar">
+		<div class="container-fluid">
+
+			<div class="navbar-header">
+				<a class="navbar-brand  hidden-xs" href="#"> 
+				<i class="fa  fa-fw  fa-home"></i>
+				<span>Imobiliária</span>
+					
+				</a>
+
+				<ul class="nav  navbar-nav">
+					<li>
+						<a href="#" class="js-sidebar-toggle">
+						<i class="fa  fa-bars"></i></a></li>
+				</ul>
+			</div>
+
+			<ul class="nav navbar-nav  navbar-right">
+				<li>
+					<p class="navbar-text" th:text="${#authentication.name}"></p>
+				</li>
+				
+				<li>
+					<a th:href="@{/logout}"><em class="fa  fa-sign-out"></em></a>
+				</li>
+			</ul>
+
+		</div>
+	</nav>
+
+<aside class="aw-layout-sidebar  js-sidebar">
+	<div class="aw-layout-sidebar__content">
+		<nav class="aw-menu  js-menu">
+			<ul class="aw-menu__list">
+
+			<li class="aw-menu__item" sec:authorize="hasRole('ROLE_ADMINISTRADOR')">
+				<a th:href="@{/imoveis/novo}"><i class="fa  fa-fw  fa-home"></i><span>Cadastro Imovéis</span></a>
+			</li>
+			
+			<li class="aw-menu__item" sec:authorize="hasRole('ROLE_ADMINISTRADOR')">
+				<a th:href="@{/tipoImoveis/novo}"><i class="fa  fa-fw  fa-home"></i><span>Cadastro do Tipo de Imovél</span></a>
+			</li>
+			
+			<li class="aw-menu__item" >
+				<a th:href="@{/clientes/novo}"><i class="fa  fa-fw  fa-home"></i><span>Cadastro Cliente</span></a>
+			</li>
+			
+			<li class="aw-menu__item" sec:authorize="hasRole('ROLE_ADMINISTRADOR')">
+				<a th:href="@{/locacoes/novo}"><i class="fa  fa-fw  fa-home"></i><span>Cadastro de Locações</span></a>
+			</li>
+			
+			<li class="aw-menu__item" sec:authorize="hasRole('ROLE_ADMINISTRADOR')">
+				<a th:href="@{/servicoimoveis/novo}"><i class="fa  fa-fw  fa-home"></i><span>Cadastro de Serviços</span></a>
+			</li>
+			
+			<li class="aw-menu__item" sec:authorize="hasRole('ROLE_ADMINISTRADOR')">
+				<a th:href="@{/profissionais/novo}"><i class="fa  fa-fw  fa-home"></i><span>Cadastro de Profissionais</span></a>
+			</li>
+			
+			<li class="aw-menu__item" >
+				<a th:href="@{/imoveis}"><i class="glyphicon glyphicon-search"></i><span>Pesquisa Imovéis</span></a>
+			</li>
+			
+			<li class="aw-menu__item" >
+				<a th:href="@{/tipoImoveis}"><i class="glyphicon glyphicon-search"></i><span>Pesquisa de Tipo Imovéis</span></a>
+			</li>
+			
+			<li class="aw-menu__item" >
+				<a th:href="@{/clientes}"><i class="glyphicon glyphicon-search"></i><span>Pesquisa Cliente</span></a>
+			</li>
+			
+			<li class="aw-menu__item" >
+				<a th:href="@{/locacoes}"><i class="glyphicon glyphicon-search"></i><span>Pesquisa das Locações</span></a>
+			</li>
+			
+			<li class="aw-menu__item" >
+				<a th:href="@{/profissionais}"><i class="glyphicon glyphicon-search"></i><span>Pesquisa dos Profissionais</span></a>
+			</li>
+					
+			</ul>
+		</nav>
+
+	</div>
+</aside>
+
+<section class="aw-layout-content  js-content" layout:fragment="conteudo"></section>
+	
+	<footer class="aw-layout-footer  js-content">
+		<div class="container-fluid">
+			<span class="aw-footer-disclaimer">&copy; 2017 Imobiliaria. Todos os direitos reservados.</span>
+		</div>
+	</footer>
+
+</div>
+
+<script th:src="@{/layout/javascripts/vendors.min.js}"></script>
+<script th:src="@{/layout/javascripts/puremask.min.js}"></script>
+<script th:src="@{/layout/javascripts/algaworks.min.js}"></script>
+<script th:src="@{/layout/javascripts/bootstrap-datepicker.min.js}"></script>
+<script th:src="@{/layout/javascripts/bootstrap-datepicker.pt-BR.min.js}"></script>
+
+
+<script th:src="@{/javascripts/vendors/jquery.masknumber.min.js}"></script>
+<script>
+	$('.js-moeda').maskNumber({
+		decimal: ',',
+		thousands: '.'
+	});
+</script>
+
+<script>
+    PureMask.format(".data", true);    
+    PureMask.format(".cpf", true);
+    PureMask.format(".rg", true);
+    PureMask.format(".telefone", true);
+    PureMask.format(".cep", true);
+    PureMask.format(".dormitorio", true);
+    PureMask.format(".dinheiro", true);
+    PureMask.format(".dinheiro2", true);
+</script>
+
+<th:block layout:fragment="javascript-extra"></th:block>
+
+</body>
+</html>
